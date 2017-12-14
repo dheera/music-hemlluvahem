@@ -62,12 +62,9 @@ PrimoB = {
 }
 
 PrimoC = {
-  f''16 a' a' a' d'' a' f'' a' e'' a' d'' a'
-  f''16 a' e'' a' d'' a' f'' a' e'' a' d'' a'
-  e''16 g' d'' g' c'' g' e'' g' d'' g' c'' g'
-  e''16 g' d'' g' c'' g' e'' g' d'' g' c'' g'
-  d''16 f' c'' f' b' f' d'' f' c'' f' b' f'
-  d''16 f' c'' f' b' f' d'' f' c'' f' b' f'
+  f''16 a' a' a' d'' a' \repeat unfold 3 { f'' a' e'' a' d'' a'}
+  \repeat unfold 4 { e''16 g' d'' g' c'' g' }
+  \repeat unfold 4 { d''16 f' c'' f' b' f' }
 }
 
 PrimoD = {
