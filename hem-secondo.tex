@@ -1,0 +1,195 @@
+\header {
+  title = "Hem Lluva Hem"
+  subtitle = "Secondo"
+  tagline = ""
+}
+
+\layout {
+  \context {
+    \Score
+    \override StaffGrouper.staff-staff-spacing.padding = #0
+    \override StaffGrouper.default-staff-staff-spacing.basic-distance = #20
+    \override StaffGrouper.staff-staff-spacing.basic-distance = #20
+    \override StaffGrouper.staffgroup-staff-spacing.basic-distance = #20
+  }
+}
+
+\paper {
+  #(set-paper-size "letter")
+  left-margin = 15\mm
+  right-margin = 15\mm
+  top-margin = 15\mm
+  bottom-margin = 15\mm
+  bookTitleMarkup = \markup { 
+     \override #'(baseline-skip . 5) 
+     \column { 
+       \fontsize #5 \fill-line { \null \fromproperty #'header:title \null } 
+       \fill-line { \null \fromproperty #'header:subtitle \null } 
+       \vspace #2
+     } 
+   } 
+}
+
+scale = \relative c' { c d e f g a b }
+
+
+PrimoAR = {
+  { \relative c { f8 a b c c c f,16 f a8 b c b a } }
+  { \relative c { e8 a b c c c e,16 e a8 b c b a } }
+  { \relative c { f8 a b c c c f,16 f a8 b c b a } }
+  { \relative c { e8 a b c c c e,16 e a8 b c b a } }
+  { \relative c { c'8 b a f f f c'16 c b8 a f f f } }
+  { \relative c { g'8 c d e e e g,16 g c8 d e d c } }
+  { \relative c { c'8 b a f f f c'16 c b8 a f a b } }
+  { \relative c { g'8 b c d c b e, a b c b a } }
+}
+
+PrimoAL = {
+  { \relative c { << { r16 c8 c c c c c16~ c32 c16 c32 r16 c8 c c c c16~ } \\ { f,2.~ f2. } >> } }
+  { \relative c { << { c16 a8 a a a a a16~ a32 a16 a32 r16 a8 a a a a16 } \\ { a,2.~ a2. } >> } }
+  { \relative c { << { r16 c8 c c c c c16~ c32 c16 c32 r16 c8 c c c c16~ } \\ { f,2.~ f2. } >> } }
+  { \relative c { << { c16 a8 a a a a a16~ a32 a16 a32 r16 a8 a a a a16~ } \\ { a,2.~ a2. } >> } }
+  { \relative c { << { a16 d8 d d d d d16~ d32 d16 d32 r16 d8 d d d d16~ } \\ { d,2.~ d2. } >> } }
+  { \relative c { << { d16 e8 e e e e e16~ e32 e16 e32 r16 e8 e e e e16 } \\ { c,2.~ c2. } >> } }
+  { \relative c { << { e16 d8 d d d d d16~ d32 d16 d32 r16 d8 d d d d16~ } \\ { d,2.~ d2. } >> } }
+  { \relative c { << { d16 d8 d d d d d16~ d16 c8 c c c c c16 } \\ { g2. a2. } >> } }
+}
+
+PrimoBR = {
+ \repeat unfold 2 {
+   \repeat unfold 4 { \relative c { f16 g <a c> b <a c> b } }
+   \repeat unfold 4 { \relative c { a'16 b <c e> d <c e> d } }
+ }
+}
+
+PrimoCR = {
+ \repeat unfold 4 { \relative c { d'16 e f g f g } }
+ \repeat unfold 3 { \relative c { c'16 d e f e f } }
+ { \relative c { g'16 a b c b c } }
+ \repeat unfold 4 { \relative c { f16 g a b a b } }
+}
+
+PrimoDR = {
+ { \relative c { a'16 b c d c d a b c d c a } }
+ { \relative c { a'2. } }
+}
+
+PrimoER = {
+ \clef treble
+ { \relative c' { f8 <a c> <a c> f <a c> <a c> f <a c> <a c> f <a c>16 b <a c>8 } }
+ { \relative c' { a'8 <c e> <c e> a <c e> <c e> a <c e> <c e> a <c e>16 d <c e>8 } }
+ { \relative c' { f8 <a c> <a c> f <a c> <a c> f <a c> <a c> f <a c>16 b <a c>8 } }
+ { \relative c' { a'8 <c e> <c e> a <c e> <c e> a <c e> <c e> a <c e>16 d <c e>8 } }
+ { \relative c' { d8 <f a> <f a> d <f a> <f a> d <f a> <f a> d <f a>16 g <f a>8 } }
+ { \relative c' { c8 <e g> <e g> c <e g> <e g> c <e g> <e g> c <e g>16 f <e g>8 } }
+ { \relative c' { d8 <f a> <f a> d <f a> <f a> d16 e <f a> g <f a>8 d <f a>16 g <f a>8 } }
+ { \relative c' { g'8 <b d> <b d> g16 a <b d> c <b d>8 a <c e> <c e> a r4 } }
+ \clef bass
+}
+
+PrimoFR = {
+   \repeat unfold 3 { \relative c { a'16 b c d c d } }
+   { \relative c { a'16 b c d e g } }
+}
+
+PrimoBL = {
+ \repeat unfold 2 {
+   \repeat unfold 4 { \relative c { << { r8 <a c> <a c> } \\ { f4. } >> } }
+   \repeat unfold 4 { \relative c { << { r8 <c e> <c e> } \\ { a4. } >> } }
+ }
+}
+
+PrimoCL = {
+ { \relative c { << { d16 e <f a> e <f a> e d e <f a> e <f a> e} \\ { d,2.~ } >> } }
+ { \relative c { << { d16 e <f a> e <f a> e d e <f a> e <f a> e} \\ { d,2. } >> } }
+ { \relative c { << { c16 d <e g> f <e g> f c d <e g> f <e g> f} \\ { c,2.~ } >> } }
+ { \relative c { << { c16 d <e g> f <e g> f g, a <b d> a <b d> a} \\ { c,2. } >> } }
+ { \relative c { << { f,16 g <a c> b <a c> b f g <a c> b <a c> b} \\ { b,2.~ } >> } }
+ { \relative c { << { f,16 g <a c> b <a c> b f g <a c> b <a c> b} \\ { b,2. } >> } }
+}
+
+PrimoDL = {
+ { \relative c { << { a16 b <c e> d <c e> d a b <c e> d <c e> d} \\ { a,2. } >> } }
+ { \relative c { a2. } }
+}
+
+PrimoEL = {
+ { \relative c { f,8 r b c r r16 e, f8 r b c8. b16 f8 } }
+ { \relative c { a,8 r b c r r16 g a8. b8. c8. b16 c g' } }
+ { \relative c { f,8 r b c r r16 e, f8 r b c8. b16 f8 } }
+ { \relative c { a,8 r b c r r16 g a8. b8. c8. b16 c e } }
+ { \relative c { d,8 r e' f r r16 c, d8 r e' f8. e16 g,8 } }
+ { \relative c { c,8 r d' e r r16 b, c8. d8. e8. g16 f e } }
+ { \relative c { d,8 r e' f r r16 c, d8 r e' f8. e16 g,8 } }
+ { \relative c { g8 r a b r r16 g a4 e8 a,4. } }
+}
+
+PrimoFL = {
+ { \relative c { << { a16 b <c e> d <c e> d a b <c e> d <c e> d} \\ { a,2. } >> } }
+ { \relative c { << { a16 b <c e> d <c e> d a b c d e g } \\ { a,2. } >> } }
+}
+
+Segno = {
+    \once \override Score.RehearsalMark.break-visibility = #begin-of-line-invisible
+    \once \override Score.RehearsalMark.font-size = #-1
+    \mark \markup { \musicglyph #"scripts.segno" }
+}
+
+ToCoda = {
+    \once \override Score.RehearsalMark.font-size = #-1
+    \mark \markup { "To Coda" }
+}
+
+AlCoda = {
+    \cadenzaOn \stopStaff
+    \once \override Score.RehearsalMark.font-size = #-1
+    \mark \markup { "D.S. al Coda" }
+    \repeat unfold 3 { s1 \bar "" }
+    \startStaff \cadenzaOff
+}
+
+Coda = {
+    \break
+    \mark \markup { \musicglyph #"scripts.coda" }
+    \once \override Staff.KeySignature.break-visibility = #end-of-line-invisible
+    \once \override Staff.Clef.break-visibility = #end-of-line-invisible
+}
+
+leftHand = {
+  \time 6/8
+  \clef bass
+  \PrimoAL
+  \Segno
+  \PrimoBL
+  \PrimoCL
+  \ToCoda
+  \PrimoDL
+  \PrimoEL
+  \AlCoda
+  \Coda
+  \PrimoFL
+  \PrimoCL
+  \PrimoDL
+}
+
+rightHand = {
+  \time 6/8
+  \clef bass
+  \PrimoAR
+  \Segno
+  \PrimoBR
+  \PrimoCR
+  \ToCoda
+  \PrimoDR
+  \PrimoER
+  \AlCoda
+  \Coda
+  \PrimoFR
+  \PrimoCR
+  \PrimoDR
+}
+
+\new GrandStaff <<
+  \new Staff \rightHand
+  \new Staff \leftHand
+>>

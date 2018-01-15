@@ -20,7 +20,7 @@
   right-margin = 15\mm
   top-margin = 15\mm
   bottom-margin = 15\mm
- bookTitleMarkup = \markup { 
+  bookTitleMarkup = \markup { 
      \override #'(baseline-skip . 5) 
      \column { 
        \fontsize #5 \fill-line { \null \fromproperty #'header:title \null } 
@@ -30,22 +30,28 @@
    } 
 }
 
+scale = \relative c' { c d e f g a b }
+
+motifA = { e''8 e''16 d'' e'' f'' e''4.~ }
+motifB = { e''8 e''16 d'' e'' f'' e''8 d''8. c''16 }
+motifC = { e''8 e''16 d'' e'' f'' g''8 a''8. g''16 }
+
 PrimoA = {
-  e''8 e''16 d'' e'' f'' e''4.~
-  e''8 e''16 d'' e'' f'' e''8 d''8. c''16
+  \motifA
+  \motifB
   b'8 a'~ a'2~
   a'2 c''8 d''
-  e''8 e''16 d'' e'' f'' e''4.~
-  e''8 e''16 d'' e'' f'' e''8 d''8. c''16
+  \motifA
+  \motifB
   b'4. a'4.~
   a'2.
 
-  e''8 e''16 d'' e'' f'' e''4.~
-  e''8 e''16 d'' e'' f'' g''8 a''8. g''16
+  \motifA
+  \motifC
   f''8 e''8~ e''2~
   e''2 c''8 d''
-  e''8 e''16 d'' e'' f'' e''4.~
-  e''8 e''16 d'' e'' f'' e''8 d''8. c''16
+  \motifA
+  \motifB
   b'2.
   a'2.
 }
@@ -61,20 +67,30 @@ PrimoB = {
   e''4~ e''16 f'' e''4.
 }
 
+motifD = { f''16 a' e'' a' d'' a' }
+
 PrimoC = {
-  f''16 a' a' a' d'' a' \repeat unfold 3 { f'' a' e'' a' d'' a'}
-  \repeat unfold 4 { e''16 g' d'' g' c'' g' }
-  \repeat unfold 4 { d''16 f' c'' f' b' f' }
+  f''16 a' a' a' d'' a'
+  \repeat unfold 3 { \motifD }
+  \repeat unfold 4 { \modalTranspose f e \scale \motifD }
+  \repeat unfold 4 { \modalTranspose f d \scale \motifD }
 }
 
 PrimoD = {
-  c''16 e' b' e' a' e' c'' e' b'8. a'16
+  \modalTranspose f c \scale \motifD
+  c'' e' b'8. a'16
   a'2.
 }
 
 PrimoE = {
-  c''16 e' b' e' a' e' c'' e' b' e' a' e'
-  c''16 e' b' e' a' e' a' b' c'' d'' e'' g''
+  \ottava #1
+  \transpose c c' \PrimoA
+  \ottava #0
+}
+
+PrimoF = {
+  \repeat unfold 3 { \modalTranspose f c \scale \motifD }
+  a'16 b' c'' d'' e'' g''
 }
 
 Segno = {
@@ -112,12 +128,10 @@ leftHand = {
   \PrimoC
   \ToCoda
   \PrimoD
-  \ottava #1
-  \transpose c c' \PrimoA
-  \ottava #0
+  \PrimoE
   \AlCoda
   \Coda
-  \PrimoE
+  \PrimoF
   \PrimoC
   \PrimoD
 }
