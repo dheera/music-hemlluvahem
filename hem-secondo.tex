@@ -1,3 +1,13 @@
+#(define (line-break-every-nth-engraver bars-per-line)
+  (lambda (context)
+     (make-engraver 
+       (acknowledgers ((paper-column-interface engraver grob source-engraver)
+         (let ((current-bar (ly:context-property context 'currentBarNumber)))
+           (if (= (remainder current-bar bars-per-line) 1) 
+               (if (eq? #t (ly:grob-property grob 'non-musical)) 
+                   (set! (ly:grob-property grob 'line-break-permission) 'force) 
+                   (set! (ly:grob-property grob 'line-break-permission) '())))))))))
+
 \header {
   title = "Hem Lluva Hem"
   subtitle = "Secondo"
@@ -75,21 +85,25 @@ PrimoDR = {
 }
 
 PrimoER = {
- \clef treble
- { \relative c' { f8 <a c> <a c> f <a c> <a c> f <a c> <a c> f <a c>16 b <a c>8 } }
- { \relative c' { a'8 <c e> <c e> a <c e> <c e> a <c e> <c e> a <c e>16 d <c e>8 } }
- { \relative c' { f8 <a c> <a c> f <a c> <a c> f <a c> <a c> f <a c>16 b <a c>8 } }
- { \relative c' { a'8 <c e> <c e> a <c e> <c e> a <c e> <c e> a <c e>16 d <c e>8 } }
- { \relative c' { d8 <f a> <f a> d <f a> <f a> d <f a> <f a> d <f a>16 g <f a>8 } }
- { \relative c' { c8 <e g> <e g> c <e g> <e g> c <e g> <e g> c <e g>16 f <e g>8 } }
- { \relative c' { d8 <f a> <f a> d <f a> <f a> d16 e <f a> g <f a>8 d <f a>16 g <f a>8 } }
- { \relative c' { g'8 <b d> <b d> g16 a <b d> c <b d>8 a <c e> <c e> a r4 } }
- \clef bass
+  \clef treble
+  { \relative c' { f8 <a c> <a c> f <a c> <a c> f <a c> <a c> f <a c>16 b <a c>8 } }
+  { \relative c' { a'8 <c e> <c e> a <c e> <c e> a <c e> <c e> a <c e>16 d <c e>8 } }
+  { \relative c' { f8 <a c> <a c> f <a c> <a c> f <a c> <a c> f <a c>16 b <a c>8 } }
+  { \relative c' { a'8 <c e> <c e> a <c e> <c e> a <c e> <c e> a <c e>16 d <c e>8 } }
+  { \relative c' { d8 <f a> <f a> d <f a> <f a> d <f a> <f a> d <f a>16 g <f a>8 } }
+  { \relative c' { c8 <e g> <e g> c <e g> <e g> c <e g> <e g> c <e g>16 f <e g>8 } }
+  { \relative c' { d8 <f a> <f a> d <f a> <f a> d16 e <f a> g <f a>8 d <f a>16 g <f a>8 } }
+  { \relative c' { g'8 <b d> <b d> g16 a <b d> c <b d>8 } }
+  \once \override Score.RehearsalMark.font-size = #-1
+  \mark \markup { \right-align "D.S. al Coda" }
+  { \relative c' { a <c e> <c e> a r4 } }
+  \clef bass
 }
 
 PrimoFR = {
-   \repeat unfold 3 { \relative c { a'16 b c d c d } }
-   { \relative c { a'16 b c d e g } }
+  \mark \markup { \musicglyph #"scripts.coda" }
+  \repeat unfold 3 { \relative c { a'16 b c d c d } }
+  { \relative c { a'16 b c d e g } }
 }
 
 PrimoBL = {
@@ -140,21 +154,6 @@ ToCoda = {
     \mark \markup { "To Coda" }
 }
 
-AlCoda = {
-    \cadenzaOn \stopStaff
-    \once \override Score.RehearsalMark.font-size = #-1
-    \mark \markup { "D.S. al Coda" }
-    \repeat unfold 3 { s1 \bar "" }
-    \startStaff \cadenzaOff
-}
-
-Coda = {
-    \break
-    \mark \markup { \musicglyph #"scripts.coda" }
-    \once \override Staff.KeySignature.break-visibility = #end-of-line-invisible
-    \once \override Staff.Clef.break-visibility = #end-of-line-invisible
-}
-
 leftHand = {
   \time 6/8
   \clef bass
@@ -165,8 +164,6 @@ leftHand = {
   \ToCoda
   \PrimoDL
   \PrimoEL
-  \AlCoda
-  \Coda
   \PrimoFL
   \PrimoCL
   \PrimoDL
@@ -178,13 +175,14 @@ rightHand = {
   \PrimoAR
   \Segno
   \PrimoBR
+  \mark \default
   \PrimoCR
   \ToCoda
   \PrimoDR
+  \mark \default
   \PrimoER
-  \AlCoda
-  \Coda
   \PrimoFR
+  \mark \default
   \PrimoCR
   \PrimoDR
 }

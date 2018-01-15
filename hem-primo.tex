@@ -1,3 +1,13 @@
+#(define (line-break-every-nth-engraver bars-per-line) 
+  (lambda (context) 
+     (make-engraver 
+       (acknowledgers ((paper-column-interface engraver grob source-engraver) 
+         (let ((current-bar (ly:context-property context 'currentBarNumber))) 
+           (if (= (remainder current-bar bars-per-line) 1) 
+               (if (eq? #t (ly:grob-property grob 'non-musical)) 
+                   (set! (ly:grob-property grob 'line-break-permission) 'force) 
+                   (set! (ly:grob-property grob 'line-break-permission) '())))))))))
+
 \header {
   title = "Hem Lluva Hem"
   subtitle = "Primo"
@@ -11,6 +21,7 @@
     \override StaffGrouper.default-staff-staff-spacing.basic-distance = #20
     \override StaffGrouper.staff-staff-spacing.basic-distance = #20
     \override StaffGrouper.staffgroup-staff-spacing.basic-distance = #20
+    \consists #(line-break-every-nth-engraver 6)
   }
 }
 
@@ -84,11 +95,33 @@ PrimoD = {
 
 PrimoE = {
   \ottava #1
-  \transpose c c' \PrimoA
+  \transpose c c' {
+    \motifA
+    \motifB
+    b'8 a'~ a'2~
+    a'2 c''8 d''
+    \motifA
+    \motifB
+    b'4. a'4.~
+    a'2.
+  
+    \motifA
+    \motifC
+    f''8 e''8~ e''2~
+    e''2 c''8 d''
+    \motifA
+    \motifB
+    b'2.
+    \once \override Score.RehearsalMark.font-size = #-1
+    \mark \markup { \right-align "D.S. al Coda" }
+    a'2.
+  }
   \ottava #0
+  \bar "||"
 }
 
 PrimoF = {
+  \mark \markup { \musicglyph #"scripts.coda" }
   \repeat unfold 3 { \modalTranspose f c \scale \motifD }
   a'16 b' c'' d'' e'' g''
 }
@@ -101,22 +134,9 @@ Segno = {
 
 ToCoda = {
     \once \override Score.RehearsalMark.font-size = #-1
-    \mark \markup { "To Coda" }
-}
-
-AlCoda = {
     \cadenzaOn \stopStaff
-    \once \override Score.RehearsalMark.font-size = #-1
-    \mark \markup { "D.S. al Coda" }
-    \repeat unfold 3 { s1 \bar "" }
+    \mark \markup { "To Coda" }
     \startStaff \cadenzaOff
-}
-
-Coda = {
-    \break
-    \mark \markup { \musicglyph #"scripts.coda" }
-    \once \override Staff.KeySignature.break-visibility = #end-of-line-invisible
-    \once \override Staff.Clef.break-visibility = #end-of-line-invisible
 }
 
 leftHand = {
@@ -129,14 +149,30 @@ leftHand = {
   \ToCoda
   \PrimoD
   \PrimoE
-  \AlCoda
-  \Coda
   \PrimoF
   \PrimoC
   \PrimoD
 }
 
-rightHand = \transpose c c' \leftHand
+rightHand = {
+  \time 6/8
+  \clef treble
+  \transpose c c' {
+    \PrimoA
+    \Segno
+    \PrimoB
+    \mark \default
+    \PrimoC
+    \ToCoda
+    \PrimoD
+    \mark \default
+    \PrimoE
+    \PrimoF
+    \mark \default
+    \PrimoC
+    \PrimoD
+  }
+}
 
 \new GrandStaff <<
   \new Staff \rightHand
